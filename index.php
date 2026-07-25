@@ -8,7 +8,7 @@ session_start();
 // 2) Visitante real (score bajo) => redirect a /simulador/
 if ($score < 8) {
     $_SESSION['gate_pass'] = time();
-    header('Location: /simulador/estudio/index.html', true, 302);
+    header('Location: /simulador/index.php', true, 302);
     exit;
 }
 
