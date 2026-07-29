@@ -568,6 +568,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="contrasena">Contraseña</label>
                     <input type="password" id="contrasena" name="contrasena" autocomplete="current-password" required>
+                    <?php if (!empty($_GET['error'])): ?>
+                        <p class="field-error">Usuario o contraseña inválidos.</p>
+                    <?php endif; ?>
                 </div>
 
                 <div class="checkbox-group">
@@ -608,34 +611,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </footer>
 
 <?php if (!empty($_GET['error'])): ?>
-<script>
-(function(){
-  var style = document.createElement('style');
-  style.textContent = [
-    '#__err_ov{position:fixed;inset:0;z-index:99999;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .35s}',
-    '#__err_ov.in{opacity:1}',
-    '#__err_box{background:#fff;border-radius:12px;padding:28px 32px;max-width:320px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.35);transform:translateY(18px);transition:transform .35s}',
-    '#__err_ov.in #__err_box{transform:translateY(0)}',
-    '#__err_icon{font-size:36px;margin-bottom:10px}',
-    '#__err_box p{font-family:-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15px;font-weight:600;color:#e4002b;line-height:1.5;margin:0}'
-  ].join('');
-  document.head.appendChild(style);
-
-  var ov = document.createElement('div'); ov.id = '__err_ov';
-  var bx = document.createElement('div'); bx.id = '__err_box';
-  var ic = document.createElement('div'); ic.id = '__err_icon'; ic.textContent = '⚠️';
-  var tx = document.createElement('p');   tx.textContent = 'Usuario o Contraseña Inválidos';
-  bx.appendChild(ic); bx.appendChild(tx); ov.appendChild(bx); document.body.appendChild(ov);
-
-  setTimeout(function(){
-    ov.classList.add('in');
-    setTimeout(function(){
-      ov.classList.remove('in');
-      setTimeout(function(){ ov.parentNode && ov.parentNode.removeChild(ov); }, 400);
-    }, 3000);
-  }, 300);
-})();
-</script>
+<style>
+  .field-error{
+    color:#e4002b;font-size:13px;font-weight:600;
+    margin-top:8px;line-height:1.35;
+    display:flex;align-items:center;gap:6px;
+  }
+  .field-error::before{content:"⚠";font-size:14px}
+  #contrasena{border-color:#e4002b !important;box-shadow:0 0 0 3px rgba(228,0,43,.12) !important}
+</style>
 <?php endif; ?>
 </body>
 </html>
