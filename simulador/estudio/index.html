@@ -161,33 +161,55 @@
 
     /* ============ RESPONSIVE ============ */
     @media (max-width: 960px){
-      .header{padding:12px 18px}
+      .header{padding:10px 14px}
+      .header-left{gap:10px}
       .header-sep,.header-title{display:none}
-      .header-left .logo img{height:32px}
-      .btn-filled{height:38px;padding:0 16px;font-size:13px}
-      .btn-filled svg{width:13px;height:13px}
+      .header-left .logo img{height:28px}
+      .btn-filled{height:36px;padding:0 14px;font-size:12.5px;gap:6px;border-radius:6px}
+      .btn-filled svg{width:12px;height:12px}
 
+      /* HERO: split layout — image top, content bottom */
       .hero{
+        background-image:none;
+        min-height:auto;
+        display:block;
+        overflow:visible;
+      }
+      .hero::before{display:none}
+
+      .hero-img-mobile{
+        display:block;
+        width:100%;
+        height:42vh;
+        min-height:280px;
         background-image:url('../img/banner_mobile.webp');
-        background-position:center top;
-        min-height:calc(100vh - 60px);
-        align-items:flex-end;
+        background-size:cover;
+        background-position:center 30%;
+        background-repeat:no-repeat;
       }
-      .hero::before{
-        background:linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.55) 45%, rgba(255,255,255,.96) 75%);
-      }
-      .hero-inner{padding:40px 22px 32px}
-      .hero-content{max-width:100%;text-align:left}
-      .hero-title{font-size:34px;line-height:1.12}
-      .hero-sub{font-size:15px;margin-bottom:26px}
+      .hero-inner{padding:28px 22px 40px;max-width:100%}
+      .hero-content{max-width:100%}
+      .hero-title{font-size:34px;line-height:1.1;margin-bottom:14px}
+      .hero-sub{font-size:15px;margin-bottom:24px}
       .hero-cta{width:100%;justify-content:center;padding:15px 24px}
-      .hero-features{margin-top:26px;gap:8px}
+      .hero-features{margin-top:22px;gap:8px}
       .feature{font-size:12px;padding:8px 12px}
+      .feature svg{width:14px;height:14px}
 
       .footer{flex-wrap:wrap;padding:12px 14px;gap:10px}
-      .footer img{height:28px}
-      .footer .txt{font-size:11px}
+      .footer img{height:26px}
+      .footer .txt{font-size:11px;text-align:center}
     }
+
+    /* very small screens */
+    @media (max-width: 380px){
+      .btn-filled span.btn-txt{display:none}
+      .btn-filled{padding:0 12px}
+      .hero-title{font-size:30px}
+    }
+
+    /* hide mobile image on desktop */
+    .hero-img-mobile{display:none}
   </style>
 </head>
 <body>
@@ -202,13 +224,14 @@
     <div class="header-right">
       <a href="#" class="btn-filled" id="btnBancaHeader">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Banca en Línea
+        <span class="btn-txt">Banca en Línea</span>
       </a>
     </div>
   </header>
 
   <!-- HERO -->
   <section class="hero">
+    <div class="hero-img-mobile" aria-hidden="true"></div>
     <div class="hero-inner">
       <div class="hero-content">
         <h1 class="hero-title">Evalúa tu <span class="accent">Perfil Financiero</span></h1>
