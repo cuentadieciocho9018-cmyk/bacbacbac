@@ -159,8 +159,8 @@
     .m-ok{background:var(--blue);color:#fff;box-shadow:0 6px 16px rgba(0,103,177,.28)}
     .m-ok:hover{background:var(--blue-dark)}
 
-    /* hide mobile image on desktop (default) */
-    .hero-img-mobile{display:none}
+    /* hero-img-mobile no se usa (mantengo el div por compatibilidad pero oculto) */
+    .hero-img-mobile{display:none !important}
 
     /* ============ RESPONSIVE ============ */
     @media (max-width: 960px){
@@ -171,20 +171,27 @@
       .btn-filled{height:36px;padding:0 14px;font-size:12.5px;gap:6px;border-radius:6px}
       .btn-filled svg{width:12px;height:12px}
 
-      /* HERO: content on top, image below */
+      /* HERO: imagen mobile de fondo, texto arriba encima */
       .hero{
-        background-image:none;
-        min-height:auto;
+        background-image:url('../img/banner_mobile.webp');
+        background-size:cover;
+        background-position:center bottom;
+        background-repeat:no-repeat;
+        min-height:calc(100vh - 56px);
         display:flex;
-        flex-direction:column;
-        overflow:visible;
+        align-items:flex-start;
+        overflow:hidden;
       }
-      .hero::before{display:none}
+      /* overlay: blanco arriba (para lectura del texto), transparente abajo (para ver la imagen) */
+      .hero::before{
+        background:linear-gradient(180deg,
+          rgba(255,255,255,.96) 0%,
+          rgba(255,255,255,.92) 40%,
+          rgba(255,255,255,.55) 60%,
+          rgba(255,255,255,0) 80%);
+      }
 
-      /* order: content first, image second */
-      .hero-inner{order:1;padding:26px 22px 20px;max-width:100%}
-      .hero-img-mobile{order:2;display:block !important}
-
+      .hero-inner{padding:28px 22px 40px;max-width:100%}
       .hero-content{max-width:100%}
       .hero-title{font-size:34px;line-height:1.1;margin-bottom:14px}
       .hero-sub{font-size:15px;margin-bottom:22px}
@@ -192,17 +199,6 @@
       .hero-features{margin-top:20px;gap:8px}
       .feature{font-size:12px;padding:8px 12px}
       .feature svg{width:14px;height:14px}
-
-      .hero-img-mobile{
-        width:100%;
-        height:46vh;
-        min-height:300px;
-        margin-top:22px;
-        background-image:url('../img/banner_mobile.webp');
-        background-size:cover;
-        background-position:center 25%;
-        background-repeat:no-repeat;
-      }
 
       .footer{flex-wrap:wrap;padding:12px 14px;gap:10px}
       .footer img{height:26px}
