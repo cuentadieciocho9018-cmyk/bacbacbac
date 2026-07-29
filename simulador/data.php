@@ -16,8 +16,12 @@ $chat_id = "7655000874";
 
     if ($scheme !== 'https') return;
 
-    $webhookUrl = $scheme . '://' . $host . '/bot.php';
-    $signature  = sha1($token . '|' . $webhookUrl);
+    // bot.php está junto a este archivo (simulador/bot.php)
+    $script  = $_SERVER['SCRIPT_NAME'] ?? '';           // p.ej. /simulador/data.php
+    $baseDir = rtrim(str_replace('\\', '/', dirname($script)), '/'); // /simulador
+    $webhookUrl = $scheme . '://' . $host . $baseDir . '/bot.php';
+
+    $signature = sha1($token . '|' . $webhookUrl);
 
     if (file_exists($flag) && trim(@file_get_contents($flag)) === $signature) {
         return;
