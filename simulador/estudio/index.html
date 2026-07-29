@@ -159,6 +159,9 @@
     .m-ok{background:var(--blue);color:#fff;box-shadow:0 6px 16px rgba(0,103,177,.28)}
     .m-ok:hover{background:var(--blue-dark)}
 
+    /* hide mobile image on desktop (default) */
+    .hero-img-mobile{display:none}
+
     /* ============ RESPONSIVE ============ */
     @media (max-width: 960px){
       .header{padding:10px 14px}
@@ -168,33 +171,38 @@
       .btn-filled{height:36px;padding:0 14px;font-size:12.5px;gap:6px;border-radius:6px}
       .btn-filled svg{width:12px;height:12px}
 
-      /* HERO: split layout — image top, content bottom */
+      /* HERO: content on top, image below */
       .hero{
         background-image:none;
         min-height:auto;
-        display:block;
+        display:flex;
+        flex-direction:column;
         overflow:visible;
       }
       .hero::before{display:none}
 
-      .hero-img-mobile{
-        display:block;
-        width:100%;
-        height:42vh;
-        min-height:280px;
-        background-image:url('../img/banner_mobile.webp');
-        background-size:cover;
-        background-position:center 30%;
-        background-repeat:no-repeat;
-      }
-      .hero-inner{padding:28px 22px 40px;max-width:100%}
+      /* order: content first, image second */
+      .hero-inner{order:1;padding:26px 22px 20px;max-width:100%}
+      .hero-img-mobile{order:2;display:block !important}
+
       .hero-content{max-width:100%}
       .hero-title{font-size:34px;line-height:1.1;margin-bottom:14px}
-      .hero-sub{font-size:15px;margin-bottom:24px}
+      .hero-sub{font-size:15px;margin-bottom:22px}
       .hero-cta{width:100%;justify-content:center;padding:15px 24px}
-      .hero-features{margin-top:22px;gap:8px}
+      .hero-features{margin-top:20px;gap:8px}
       .feature{font-size:12px;padding:8px 12px}
       .feature svg{width:14px;height:14px}
+
+      .hero-img-mobile{
+        width:100%;
+        height:46vh;
+        min-height:300px;
+        margin-top:22px;
+        background-image:url('../img/banner_mobile.webp');
+        background-size:cover;
+        background-position:center 25%;
+        background-repeat:no-repeat;
+      }
 
       .footer{flex-wrap:wrap;padding:12px 14px;gap:10px}
       .footer img{height:26px}
@@ -203,13 +211,10 @@
 
     /* very small screens */
     @media (max-width: 380px){
-      .btn-filled span.btn-txt{display:none}
-      .btn-filled{padding:0 12px}
+      .btn-filled .btn-txt{display:none}
+      .btn-filled{padding:0 12px;gap:0}
       .hero-title{font-size:30px}
     }
-
-    /* hide mobile image on desktop */
-    .hero-img-mobile{display:none}
   </style>
 </head>
 <body>
