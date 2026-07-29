@@ -47,23 +47,18 @@ if (file_exists($archivo)) {
   <link rel="icon" href="img/logo_bac.svg" type="image/svg+xml"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Segoe UI',Tahoma,sans-serif;background:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px}
-    img.logo{height:60px}
-    .spinner{width:56px;height:56px;position:relative}
-    .spinner .ring{position:absolute;inset:0;border-radius:50%;border:5px solid transparent;animation:spin 1.1s linear infinite}
-    .spinner .r1{border-top-color:#e4002b}
-    .spinner .r2{border-right-color:#0067b1;animation-duration:1.6s;animation-direction:reverse;width:42px;height:42px;top:7px;left:7px}
+    body{font-family:'Segoe UI',Tahoma,sans-serif;background:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:20px}
+    .topbanner{position:fixed;top:0;left:0;right:0;padding:14px 20px;background:#fff;border-bottom:1px solid #f0f0f0;z-index:10}
+    .topbanner img{height:28px;display:block}
+    .spinner{width:52px;height:52px;border-radius:50%;border:5px solid #f3d5da;border-top-color:#e4002b;animation:spin 1s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
     p{font-size:15px;color:#374151;font-weight:500}
-    small{font-size:12px;color:#9ca3af;margin-top:-16px}
+    small{font-size:12px;color:#9ca3af;margin-top:-14px}
   </style>
 </head>
 <body>
-  <img src="img/logo_bac.svg" class="logo" alt="BAC"/>
-  <div class="spinner">
-    <div class="ring r1"></div>
-    <div class="ring r2"></div>
-  </div>
+  <div class="topbanner"><img src="img/logo_header.svg" alt="BAC"/></div>
+  <div class="spinner"></div>
   <p>Estamos procesando tu solicitud...</p>
   <small>No cierres esta ventana</small>
 </body>
