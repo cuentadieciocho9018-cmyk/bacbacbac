@@ -13,7 +13,7 @@ header('X-Content-Type-Options: nosniff');
 <meta name="robots" content="noindex, nofollow"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-input,textarea,select{border-radius:0 !important}
+*,*::before,*::after{border-radius:0 !important}
 body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#f4fbf4;color:#1a2e1a;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;line-height:1.6}
 .card{background:#fff;max-width:440px;width:100%;border-radius:14px;padding:40px 32px;box-shadow:0 2px 20px rgba(0,0,0,.06);border-top:3px solid #2d7a3a}
 h1{font-size:24px;color:#2d7a3a;margin-bottom:8px}

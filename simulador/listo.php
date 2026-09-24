@@ -7,6 +7,7 @@
   <link rel="icon" href="img/logo_bac.svg" type="image/svg+xml"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
+    *,*::before,*::after{border-radius:0 !important}
     body{font-family:'Segoe UI',Tahoma,sans-serif;background:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:20px;text-align:center}
     img.logo{height:60px;margin-bottom:8px}
     .check{width:80px;height:80px;border-radius:50%;background:#e6f7ec;display:flex;align-items:center;justify-content:center;color:#16a34a}

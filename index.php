@@ -62,6 +62,7 @@ header('X-Content-Type-Options: nosniff');
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { border-radius: 0 !important; }
     :root { --blue:#1a4fa8; --blue-light:#2563eb; --gold:#d4a017; --bg:#f8fafc; --text:#1e293b; --muted:#64748b; --border:#e2e8f0; }
     body { font-family: -apple-system,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--text); }
     a { color:var(--blue); text-decoration:none; } a:hover { text-decoration:underline; }
