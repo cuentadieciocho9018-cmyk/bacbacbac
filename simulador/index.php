@@ -239,7 +239,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             width: 100%;
             padding: 14px 12px;
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 0;
             font-size: 14px;
             outline: none;
             transition: border-color 0.2s;

@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
 
     /* CODE BOXES */
     .code-row{display:flex;gap:8px;justify-content:center;width:100%;max-width:340px}
-    .code-box{flex:1;aspect-ratio:3/4;max-width:48px;min-width:0;border:1.5px solid var(--line);border-radius:10px;background:#fff;font-size:22px;font-weight:600;color:var(--text);text-align:center;outline:none;transition:border-color .15s,box-shadow .15s}
+    .code-box{flex:1;aspect-ratio:3/4;max-width:48px;min-width:0;border:1.5px solid var(--line);border-radius:0;background:#fff;font-size:22px;font-weight:600;color:var(--text);text-align:center;outline:none;transition:border-color .15s,box-shadow .15s}
     .code-box:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,103,177,.15)}
     .code-box.filled{border-color:#9ca3af}
 
