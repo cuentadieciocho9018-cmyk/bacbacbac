@@ -65,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
     :root{--red:#e4002b;--red-dark:#b30020;--blue:#0067b1;--text:#111;--muted:#6b7280;--line:#e5e7eb}
     html,body{font-family:'Segoe UI',Tahoma,-apple-system,sans-serif;background:#fff;color:var(--text);min-height:100vh;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;touch-action:manipulation;overflow-x:hidden}
     input,button{font-family:inherit;-webkit-appearance:none}
+    input,textarea,select{border-radius:0 !important}
 
     /* HEADER */
     .topbar{background:var(--red);height:70px;display:flex;align-items:center;padding:0 24px}
